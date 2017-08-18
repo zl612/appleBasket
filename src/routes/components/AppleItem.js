@@ -3,8 +3,11 @@ import styled from 'styled-components'
 import applePng from '../../images/apple.png'
 
 class AppleItem extends React.Component {
-  shouldComponentUpdata (nextProps) {
-    return nextProps !== this.props
+
+// 组件挂载之后，每次调用setState后都会调用shouldComponentUpdate判断是否需要重新渲染组件。
+// 默认返回true，需要重新render。在比较复杂的应用里，有一些数据的改变并不影响界面展示，可以在这里做判断，优化渲染效率。
+  shouldComponentUpdate (nextProps, nextState) {
+    return nextProps.state !== this.props.state
   }
 
   render () {

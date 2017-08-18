@@ -8,16 +8,46 @@ let actions = {
       // 通知开始摘苹果
       dispatch(actions.beginPickApple())
 
-      fetch('https://hacker-news.firebaseio.com/v0/jobstories.json')
-        .then(res => {
-          if (res.status !== 200) dispatch(actions.failPickApple(res.statusText))
+      // return new Promise(function (resolve, reject) {
+      //   fetch('https://hacker-news.firebaseio.com/v0/jobstories.json')
+      //   .then(res => {
+      //     if (res.ok) {
+      //       console.log('res ==>', res)
+      //       let weight = Math.floor(200 + Math.random() * 50)
+      //       console.log('苹果', weight)
+      //       console.log('res.json() ==> ', res.json())
+      //       dispatch(actions.donePickApple(weight))
+      //       return res.json()
+      //     } else {
+      //       dispatch(actions.failPickApple(res.statusText))
+      //       console.error('服务器繁忙，请稍后再试；\r\nCode:' + res.status)
+      //     }
+      //   })
+      //   .then((data) => {
+      //     console.log('data=>', data)
+      //     resolve(data)
+      //   })
+      //   .catch((err) => {
+      //     dispatch(actions.failPickApple(err.statusText))
+      //     reject(err)
+      //   })
+      // })
 
-          let weight = Math.floor(200 + Math.random() * 50)
-          console.log('苹果', weight)
-          dispatch(actions.donePickApple(weight))
-        }).catch(e => {
-          dispatch(actions.failPickApple(e.statusText))
+      // fetch('https://hacker-news.firebaseio.com/v0/jobstories.json')
+      fetch('../service/apples.json')
+      .then(res => {
+        if (res.status !== 200) dispatch(actions.failPickApple(res.statusText))
+        console.log('res=>', res)
+        res.json().then(function (data) {
+          console.log('data=>', data)
         })
+        let weight = Math.floor(200 + Math.random() * 50)
+        console.log('苹果', weight)
+        dispatch(actions.donePickApple(weight))
+      })
+      .catch(e => {
+        dispatch(actions.failPickApple(e.statusText))
+      })
     }
   },
 
